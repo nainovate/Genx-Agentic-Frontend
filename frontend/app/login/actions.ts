@@ -18,53 +18,48 @@ export async function getUser(email: string) {
   return user
 }
 
-export async function getAgent(user : object) {
+export async function getTask(user: any) {
   try {
     const data = {
-      userId: user.id,
       sessionId: user.deviceHash,
-      role: user.role,
-      org: user.org,
-      position: user.position,
-      hierarchyId: user.hierarchyId
     }
-    const response = await axios.post(`${IP_ADDRESS}/chatbot/getAgentIds`, data);
-    const agents = response.data.agentIds
-    const jsonStringifiedAgents: any = {};
+    const response = await axios.post(`${IP_ADDRESS}/chatbot/getTaskIds`, data);
 
-    for (const key in agents) {
-      if (agents.hasOwnProperty(key)) {
-        jsonStringifiedAgents[key] = JSON.stringify(agents[key]);
-      }
-    }
-    await redis.hmset(`user:${user.id}`, jsonStringifiedAgents).catch((error) => {
-        console.error('Error setting agent object:', error);
+    if (response.data.status_code === 200) {
+      const tasks = response.data.tasks
+      await redis.hmset(`user:${user.id}`, { tasks: JSON.stringify(tasks) }).catch((error) => {
+        console.error('Error setting task list:', error);
       });
-    const items = Object.entries(agents);
-    const agentInfo = items[0];
-    const result: any = await initializeInstances(agentInfo[0], user)
-    if (result.status_code === 200) {
-      return agentInfo
+      const role = tasks[0].roles[0];
+      const taskInfo = role.tasks[0];
+      taskInfo["orgId"] = tasks[0].orgId
+      const result: any = await initializeInstances(taskInfo.agentId, user)
+
+      if (result.status_code === 200) {
+        return taskInfo
+      }
     } else {
-      return []
-      // return ['A1','resume']
+      return {}
     }
   } catch (error: any) {
     console.error('Error:', error.message);
-    return []
+    return {}
   }
 }
 
-export async function initializeInstances(agentId: string, user) {
+export async function initializeInstances(deployId: string, user: any) {
   const data = {
-    userId: user.id,
     sessionId: user.deviceHash,
-    role: user.role,
-    hierarchyId: user.hierarchyId,
-    agentId: agentId
+    data: {
+      userId: user.id,
+      deployId: deployId
+    }
+
   }
   try {
     const response1 = await axios.post(`${IP_ADDRESS}/chatbot/initializeInstances`, data);
+    console.log('-----res in itit',deployId,response1.data)
+
     if (response1.data.status_code == 200) {
       return response1.data
     } else {
@@ -102,7 +97,7 @@ export async function authenticate(
       })
 
     if (parsedCredentials.success) {
-       const response = await signIn('credentials', {
+      const response = await signIn('credentials', {
         username,
         password,
         redirect: false
@@ -113,7 +108,7 @@ export async function authenticate(
         console.error("Sign-in error:", error);
         return null
       });
-      if(!response){
+      if (!response) {
         return {
           type: 'error',
           resultCode: ResultCode.InvalidCredentials

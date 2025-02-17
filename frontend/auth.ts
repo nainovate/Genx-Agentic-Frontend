@@ -4,7 +4,7 @@ import { authConfig } from './auth.config'
 import { nan, z } from 'zod'
 import { getStringFromBuffer } from './lib/utils'
 import { getUser } from './app/login/actions'
-import { getAgentIds } from './app/(chat)/agent/actions'
+import { getTaskIds } from './app/(chat)/agent/actions'
 import { nanoid } from 'nanoid'
 import axios from 'axios'
 
@@ -37,11 +37,10 @@ export const { auth, signIn, signOut } = NextAuth({
             const response = await axios.post(`${IP_ADDRESS}/api/login`, data);
             if (response.data.status_code === 200) {
               const user = response.data
-              const hierarchyId = Object.keys(user.role.user)[0]
-              const role = Object.values(user.role.user)[0]
+              console.log('------user',user)
+              const role = Object.keys(user.role)[0]
               user.role = role
-              user.hierarchyId = hierarchyId
-              getAgentIds(user)
+              getTaskIds(user)
               return user
             } else {
               return null

@@ -1,6 +1,6 @@
 import { type Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
-import { getAgentQuestions } from '@/app/(chat)/[agentid]/actions'
+import { getTaskQuestions } from '@/app/(chat)/[taskId]/actions'
 import { auth } from '@/auth'
 import { getChat } from '@/app/actions'
 import { Chat } from '@/components/chat'
@@ -43,21 +43,21 @@ export default async function ChatPage({ params }: ChatPageProps) {
   if (!chat) {
     redirect('/')
   }
-
   if (chat?.userId !== session?.user?.id) {
     notFound()
   }
-  await initializeInstances(chat.agentId, session.user)
-  const questions = await getAgentQuestions(session.user.deviceHash, chat.agentId, session.user.id)
+  const taskInfo = JSON.parse(chat.taskInfo)
+  await initializeInstances(taskInfo.agentId, session.user)
+  const questions = await getTaskQuestions(session.user.deviceHash, taskInfo, session.user.id)
 
   return (
-    <AI initialAIState={{ agentId: chat.agentId, chatId: chat.id, messages: JSON.parse(chat.messages) }}>
+    <AI initialAIState={{ taskInfo: taskInfo, chatId: chat.id, messages: JSON.parse(chat.messages) }}>
       <div
       className="group w-full flex peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
     >
       <AudioTest session={session} />
       <Chat
-        agentId={chat.agentId}
+        taskInfo={taskInfo}
         id={chat.id}
         session={session}
         questions={questions}

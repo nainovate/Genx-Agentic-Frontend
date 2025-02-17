@@ -25,7 +25,7 @@ import { useAudiobar } from '@/lib/hooks/use-audiobar';
 
 export function PromptForm({
   sessionId,
-  agentId,
+  taskInfo,
   id,
   setShow,
   input,
@@ -34,7 +34,7 @@ export function PromptForm({
   questions
 }: {
   sessionId: string
-  agentId: string
+  taskInfo: any
   id: string
   setShow: (value: boolean) => void
   input: string
@@ -95,7 +95,7 @@ export function PromptForm({
         ])
 
         // Submit and get response message
-        const responseMessage = await submitUserMessage(sessionId, agentId, id, value)
+        const responseMessage = await submitUserMessage(sessionId, taskInfo, id, value)
         setShow(false)
         setMessages(currentMessages => [...currentMessages, responseMessage])
       }}

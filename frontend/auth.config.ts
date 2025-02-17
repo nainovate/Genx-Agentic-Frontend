@@ -23,7 +23,7 @@ export const authConfig = {
     },
     async jwt({ token, user }) {
       if (user) {
-        token = { ...token, id: user.userId, name: user.userName, org: user.org, position: user.position, deviceHash: user.deviceHash, role:user.role, hierarchyId: user.hierarchyId}
+        token = { ...token, id: user.userId, name: user.userName, orgIds: user.orgIds, deviceHash: user.deviceHash, role:user.role, email:user.email}
       
       }
 
@@ -32,13 +32,12 @@ export const authConfig = {
     async session({ session, token }) {
       if (token) {
         const { id } = token as { id: string }
-        const { org } = token as { org: string}
-        const {position} = token as { position: string}
+        const { email } = token as { email: string }
+        const { orgIds } = token as { orgIds: any}
         const {deviceHash} = token as { deviceHash: string}
         const {role} = token as {role: string}
-        const {hierarchyId} = token as {hierarchyId : string}
         const { user } = session
-        session = { ...session, user: { ...user, id , org, position, deviceHash, role, hierarchyId} }
+        session = { ...session, user: { ...user, id , orgIds, deviceHash, role, email} }
       }
       return session
     }

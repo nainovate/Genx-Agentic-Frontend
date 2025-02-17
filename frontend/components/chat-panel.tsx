@@ -17,7 +17,7 @@ import { useAudiobar } from '@/lib/hooks/use-audiobar';
 
 export interface ChatPanelProps {
   sessionId: string
-  agentId: string
+  taskInfo: any
   id?: any
   title?: string
   input: string
@@ -31,7 +31,7 @@ export interface ChatPanelProps {
 
 export function ChatPanel({
   sessionId,
-  agentId,
+  taskInfo,
   id,
   title,
   setShow,
@@ -118,7 +118,7 @@ function SamplePrevArrow(props: any) {
                   ])
 
                   const responseMessage = await submitUserMessage(sessionId,
-                    agentId,
+                    taskInfo,
                     id,
                     example
                   )
@@ -137,7 +137,7 @@ function SamplePrevArrow(props: any) {
         }
 
         <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
-          <PromptForm sessionId={sessionId} setShow={setShow} agentId={agentId} id={id} input={input} setInput={setInput} show={show} questions={questions} />
+          <PromptForm sessionId={sessionId} setShow={setShow} taskInfo={taskInfo} id={id} input={input} setInput={setInput} show={show} questions={questions} />
           {/* <FooterText className="hidden sm:block" /> */}
         </div>
       </div>

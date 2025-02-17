@@ -111,7 +111,7 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
   }
 }
 
-async function submitUserMessage(sessionId: string, agentId: string, id: string, content: string) {
+async function submitUserMessage(sessionId: string, taskInfo: any, id: string, content: string) {
   'use server';
   const aiState = getMutableAIState<typeof AI>();
   // Update aiState with the user message
@@ -128,18 +128,18 @@ async function submitUserMessage(sessionId: string, agentId: string, id: string,
   });
   const data ={
     sessionId: sessionId,
-    agentId: agentId,
     data:{
       query:content,
-      uniqueId: id
+      deployId: taskInfo.agentId,
+      clientApiKey: taskInfo.clientApiKey
     }
   }
+  console.log('-----data',data)
   try {
     const res = await axios.post(`${IP_ADDRESS}/chatbot/rag`,data)
-    console.log(res.data)
-    var content1: string = res.data.response.response
-    console.log(content1)
-    
+    console.log('-----res',res.data)
+
+    var content1: string = res.data.responseText    
   } catch (error: any) {
     // Check if it's a network error or a response error
   if (error.response) {
@@ -196,7 +196,7 @@ export const AI = createAI<AIState, UIState>({
     confirmPurchase
   },
   initialUIState: [],
-  initialAIState: { agentId:'',chatId: nanoid(), messages: [] },
+  initialAIState: { taskInfo:{},chatId: nanoid(), messages: [] },
   onGetUIState: async () => {
     'use server'
 
@@ -220,7 +220,7 @@ export const AI = createAI<AIState, UIState>({
     const session = await auth()
 
     if (session && session.user) {
-      const { agentId, chatId, messages } = state
+      const { taskInfo, chatId, messages } = state
 
       const createdAt = new Date()
       const userId = session.user.id as string
@@ -236,7 +236,7 @@ export const AI = createAI<AIState, UIState>({
         createdAt,
         messages,
         path,
-        agentId
+        taskInfo: JSON.stringify(taskInfo)
       }
       await saveChat(chat)
     } else {

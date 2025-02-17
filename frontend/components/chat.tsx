@@ -18,14 +18,13 @@ import { useAudiobar } from '@/lib/hooks/use-audiobar'
 
 
 export interface ChatProps extends React.ComponentProps<'div'> {
-  agentId?: any
-  agentInfo?: any
+  taskInfo?: any
   id?: string
   session?: Session
   questions?: any
 }
 
-export function Chat({ agentId, agentInfo, id, className, session, questions }: ChatProps) {
+export function Chat({ taskInfo, id, className, session, questions }: ChatProps) {
   const sessionId: any = session?.user.deviceHash
   const router = useRouter()
   const path = usePathname()
@@ -74,7 +73,7 @@ export function Chat({ agentId, agentInfo, id, className, session, questions }: 
         {messages.length ? (
           <ChatList messages={messages} show={show} isShared={false} session={session} />
         ) : (
-          transcriptedText === '' && <EmptyScreen agentInfo={agentInfo} />
+          transcriptedText === '' && <EmptyScreen taskInfo={taskInfo} />
         )}
         {transcriptedText !== '' && (<div className='relative mx-auto max-w-2xl px-4'>
           <Separator className="my-4" />
@@ -86,7 +85,7 @@ export function Chat({ agentId, agentInfo, id, className, session, questions }: 
       </div>
       <ChatPanel
         sessionId={sessionId}
-        agentId={agentId}
+        taskInfo={taskInfo}
         id={id}
         input={input}
         setInput={setInput}

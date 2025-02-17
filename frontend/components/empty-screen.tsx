@@ -1,7 +1,7 @@
 export interface EmptyProps {
-  agentInfo: any
+  taskInfo: any
 }
-export function EmptyScreen({ agentInfo }: EmptyProps) {
+export function EmptyScreen({ taskInfo }: EmptyProps) {
   return (
     <div className="mx-auto sm:max-w-2xl sm:px-4">
     <div className="mx-auto max-w-2xl px-4">
@@ -10,7 +10,7 @@ export function EmptyScreen({ agentInfo }: EmptyProps) {
           <div className="mb-3 h-12 w-12"><div className="gizmo-shadow-stroke overflow-hidden rounded-full"></div>
           </div>
         </div>
-        <div className="flex flex-col items-center gap-2"><div className="text-center text-2xl font-semibold">{agentInfo?.Name}</div>
+        <div className="flex flex-col items-center gap-2"><div className="text-center text-2xl font-semibold">{taskInfo?.taskName}</div>
           <div className="flex items-center gap-1 text-token-text-tertiary">
             <div className="mt-1 flex flex-row items-center space-x-1">
               {/* <div className="text-sm text-token-text-tertiary">By khanacademy.org</div> */}
@@ -22,7 +22,7 @@ export function EmptyScreen({ agentInfo }: EmptyProps) {
               </div>
             </div>
           </div>
-          <div className="max-w-md text-center text-sm font-normal text-token-text-primary">{agentInfo?.Description}</div>
+          <div className="max-w-md text-center text-sm font-normal text-token-text-primary">{taskInfo?.description}</div>
           {/* <div className="mx-3 mt-12 flex max-w-3xl flex-wrap items-stretch justify-center gap-4">
 
             <button className="relative flex w-40 flex-col gap-2 rounded-2xl border border-token-border-light px-3 pb-4 pt-3 text-start align-top text-[15px] shadow-[0_0_2px_0_rgba(0,0,0,0.05),0_4px_6px_0_rgba(0,0,0,0.02)] transition hover:bg-token-main-surface-secondary"><div className="line-clamp-3 text-balance text-gray-600 dark:text-gray-500 break-word">Give me 10 practice problems!</div></button>
