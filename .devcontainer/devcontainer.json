@@ -1,0 +1,23 @@
+{
+    "name": "GenX Agentic Frontend",
+    "dockerFile": "Dockerfile",  // Path to your Dockerfile
+    "context": "..",  // Path to the context where the Dockerfile is located
+    "workspaceFolder": "/workspace",  // Path to your workspace
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash"
+            },
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode"
+            ]
+        }
+    }, 
+    "postCreateCommand": "cd frontend && npm run dev",  // Run after the container is created
+    "remoteUser": "node",  // User to use inside the container
+    "remoteEnv": {
+        "NODE_ENV": "development"
+    },
+    "forwardPorts": [3002]  // Forward ports
+}

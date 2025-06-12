@@ -1,0 +1,23 @@
+#version: '3'
+services:
+  frontend:
+    build:
+      context: ..  # Path to the directory containing the Node.js UI app
+      dockerfile: .devcontainer/Dockerfile # Specify the Node.js Dockerfile
+    environment:
+      - BackendServiceIp=${BackendServiceIp:-localhost}
+      - BackendServicePort=${BackendServicePort:-3001}
+      - REDIS_HOST=${REDIS_HOST:-localhost}
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - AUTH_SECRET=10cd549e91b95ac15e33037968f0f422
+      - NEXT_PUBLIC_ORGNAME=nainovate
+    ports:
+      - "3001:3001" # Map the container's port 3002 to the host's port 3002
+    volumes:
+      - ..:/workspace:cached
+      # Mount vscode-server volume for better performance
+      - vscode-extensions:/home/vscode/.vscode-server/extensions
+
+volumes:
+  vscode-extensions:
