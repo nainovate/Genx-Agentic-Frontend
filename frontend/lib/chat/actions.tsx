@@ -131,7 +131,8 @@ async function submitUserMessage(sessionId: string, taskInfo: any, id: string, c
     data:{
       query:content,
       deployId: taskInfo.agentId,
-      clientApiKey: taskInfo.clientApiKey
+      clientApiKey: taskInfo.clientApiKey,
+      orgId: taskInfo.orgId,
     }
   }
   console.log('-----data',data)

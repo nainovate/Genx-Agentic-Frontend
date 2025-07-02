@@ -45,7 +45,8 @@ export function Agents({ user }: AgentProps) {
                                                             <div style={{ opacity: 1, transform: 'none' }} className='flex items-center justify-center'>
                                                                 <button onClick={
                                                                     async () => {
-                                                                        await saveTaskInfo(user.id,task)
+                                                                        
+                                                                        await saveTaskInfo(user.id,task,org?.orgId)
                                                                     }}
                                                                     className="cursor-pointer group flex h-24 w-full min-w-[360px] items-center gap-5 overflow-hidden rounded-xl bg-muted px-7 py-8 hover:bg-accent md:h-32 lg:h-36 lg:w-80">
                                                                     <div className="h-16 w-16 flex-shrink-0 md:h-24 md:w-24">

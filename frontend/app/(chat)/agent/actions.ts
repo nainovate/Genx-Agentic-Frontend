@@ -12,7 +12,9 @@ const BackendServicePort = process.env.BackendServicePort
 const IP_ADDRESS = `http://${BackendServiceIp}:${BackendServicePort}`;
 const redis = createRedisInstance();
 
-export async function saveTaskInfo(userId: string, taskInfo: any) {
+export async function saveTaskInfo(userId: string, taskInfo: any, orgId?: string) {
+  console.log('taskInfo',orgId)
+  taskInfo.orgId = orgId || taskInfo.orgId;
   const serializedData = { [taskInfo._id]: JSON.stringify(taskInfo) }
   await redis.hmset(`user:${userId}tasks`, serializedData).catch((error) => {
     console.error('Error setting task object:', error);

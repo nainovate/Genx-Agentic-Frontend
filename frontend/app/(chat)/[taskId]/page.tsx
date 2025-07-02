@@ -26,6 +26,7 @@ export default async function AgentPage({ params }: AgentPageProps) {
   const id: string=nanoid()
   const userId = session.user.id as string
   const tasks = await getUserTasks(userId)
+  console.log('tasks', tasks)
   if (!tasks) {
     redirect('/')
   }
