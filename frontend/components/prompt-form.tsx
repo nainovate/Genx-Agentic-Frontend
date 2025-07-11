@@ -100,7 +100,7 @@ export function PromptForm({
         setMessages(currentMessages => [...currentMessages, responseMessage])
       }}
     >
-      <div className="relative flex max-h-60 w-full grow flex-row overflow-hidden bg-background px-8 sm:rounded-md sm:border sm:px-12">
+      <div className="relative flex max-h-60 w-full grow flex-row overflow-hidden bg-background px-8 sm:rounded-full sm:border sm:px-12">
         {/* <Tooltip>
           <TooltipTrigger asChild>
             <NormalButton

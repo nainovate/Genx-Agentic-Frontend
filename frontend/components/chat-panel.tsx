@@ -92,51 +92,14 @@ function SamplePrevArrow(props: any) {
   };
   return (
     // <div className="fixed inset-x-0 bottom-0 w-full bg-gradient-to-b from-muted/30 from-0% to-muted/30 to-50% duration-300 ease-in-out animate-in dark:from-background/10 dark:from-10% dark:to-background/80 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px]">
-      <div className='absolute sticky bottom-0 w-full'>
+      <div className='w-full py-2'>
       <ButtonScrollToBottom
         isAtBottom={isAtBottom}
         scrollToBottom={scrollToBottom}
       />
 
-      <div className="mx-auto sm:max-w-2xl sm:px-4">
-        {messages.length === 0 && questions.length !== 0 && !isAudiobarOpen &&
-            <div className='mb-3'>
-          <Slider {...settings}>
-            {questions.map((example:string, index:number) => (
-              <div
-                key={example}
-                className={`min-h-[120px] cursor-pointer rounded-lg border bg-background p-4 hover:bg-popover ${index > 1 && 'hidden md:block'
-                  }`}
-                onClick={async () => {
-                  setShow(true)
-                  setMessages(currentMessages => [
-                    ...currentMessages,
-                    {
-                      id: nanoid(),
-                      display: <UserMessage>{example}</UserMessage>
-                    }
-                  ])
-
-                  const responseMessage = await submitUserMessage(sessionId,
-                    taskInfo,
-                    id,
-                    example
-                  )
-                  setShow(false)
-                  setMessages(currentMessages => [
-                    ...currentMessages,
-                    responseMessage
-                  ])
-                }}
-              >
-                <div className="text-sm font-semibold">{example}</div>
-              </div>
-            ))}
-          </Slider>
-          </div>
-        }
-
-        <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
+      <div className="w-full sm:px-4">
+        <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-2xl sm:border md:py-4">
           <PromptForm sessionId={sessionId} setShow={setShow} taskInfo={taskInfo} id={id} input={input} setInput={setInput} show={show} questions={questions} />
           {/* <FooterText className="hidden sm:block" /> */}
         </div>

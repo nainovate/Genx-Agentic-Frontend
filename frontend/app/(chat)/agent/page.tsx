@@ -1,7 +1,8 @@
 import { auth } from '@/auth'
 import { Session } from '@/lib/types'
 import { redirect } from 'next/navigation'
-import { Agents } from '@/components/agents'
+// import { Agents } from '@/components/agents'
+import { Agents } from '@/components/agents-test'
 
 
 export default async function AgentPage() {

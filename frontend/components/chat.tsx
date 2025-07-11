@@ -73,7 +73,7 @@ export function Chat({ taskInfo, id, className, session, questions }: ChatProps)
         {messages.length ? (
           <ChatList messages={messages} show={show} isShared={false} session={session} />
         ) : (
-          transcriptedText === '' && <EmptyScreen taskInfo={taskInfo} />
+          transcriptedText === '' && <EmptyScreen questions={questions} taskInfo={taskInfo} />
         )}
         {transcriptedText !== '' && (<div className='relative mx-auto max-w-2xl px-4'>
           <Separator className="my-4" />
