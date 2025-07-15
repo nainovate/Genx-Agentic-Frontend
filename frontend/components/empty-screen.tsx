@@ -35,12 +35,24 @@
 //   )
 // }
 
+import { useAIState, useActions, useUIState } from 'ai/rsc'
+import type { AI } from '@/lib/chat/actions'
+import { nanoid } from 'nanoid'
+import { UserMessage } from './stocks/message'
+
 export interface EmptyProps {
   taskInfo: any;
   questions: string[];
+  setShow: (value: boolean) => void
+  sessionId?: string;
+    id?: any
+
 }
 
-export function EmptyScreen({ taskInfo, questions }: EmptyProps) {
+export function EmptyScreen({ taskInfo, questions, setShow,sessionId, id }: EmptyProps) {
+    const [aiState] = useAIState()
+    const [messages, setMessages] = useUIState<typeof AI>()
+    const { submitUserMessage } = useActions()
   return (
     <div className="mx-auto max-w-2xl px-4 sm:px-6 flex h-full flex-col items-center justify-center text-gray-900 dark:text-gray-100">
       {/* Welcome Icon */}
@@ -64,7 +76,28 @@ export function EmptyScreen({ taskInfo, questions }: EmptyProps) {
           <button
             key={index}
             className="flex flex-col gap-2 p-5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-left hover:-translate-y-1 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600 transition-all"
-            onClick={() => console.log(`Question clicked: ${question}`)}
+            // onClick={() => console.log(`Question clicked: ${question}`)}
+            onClick={async () => {
+                  setShow(true)
+                  setMessages(currentMessages => [
+                    ...currentMessages,
+                    {
+                      id: nanoid(),
+                      display: <UserMessage>{question}</UserMessage>
+                    }
+                  ])
+
+                  const responseMessage = await submitUserMessage(sessionId,
+                    taskInfo,
+                    id,
+                    question
+                  )
+                  setShow(false)
+                  setMessages(currentMessages => [
+                    ...currentMessages,
+                    responseMessage
+                  ])
+                }}
           >
             <div className="text-base font-semibold text-gray-900 dark:text-gray-100">
               {question}

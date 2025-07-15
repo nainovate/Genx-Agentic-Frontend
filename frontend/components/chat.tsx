@@ -80,7 +80,7 @@ export function Chat({ taskInfo, id, className, session, questions }: ChatProps)
             scrollToBottom={scrollToBottom}
             questions={questions} />
         ) : (
-          transcriptedText === '' && <EmptyScreen questions={questions} taskInfo={taskInfo} />
+          transcriptedText === '' && <EmptyScreen questions={questions} taskInfo={taskInfo} id={id} sessionId={sessionId} setShow={setShow} />
         )}
         {transcriptedText !== '' && (<div className='relative mx-auto max-w-2xl px-4'>
           <Separator className="my-4" />
@@ -90,7 +90,8 @@ export function Chat({ taskInfo, id, className, session, questions }: ChatProps)
         </div>)}
         <div className="w-full h-px" ref={visibilityRef} />
       </div>
-      {/* <ChatPanel
+      {messages.length ? null: (
+      <ChatPanel
         sessionId={sessionId}
         taskInfo={taskInfo}
         id={id}
@@ -101,7 +102,7 @@ export function Chat({ taskInfo, id, className, session, questions }: ChatProps)
         scrollToBottom={scrollToBottom}
         show={show}
         questions={questions}
-      /> */}
+      />)}
     </div>
   )
 }

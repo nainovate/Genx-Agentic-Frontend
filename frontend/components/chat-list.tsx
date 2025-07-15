@@ -464,6 +464,7 @@ Add any references or additional information here...`
             scrollToBottom={scrollToBottom}
             show={show}
             questions={questions}
+            activeDocument={activeDocument}
           />
         </div>
       </div>

@@ -15,6 +15,8 @@ import { ChatHistory } from './chat-history'
 import { Session } from '@/lib/types'
 import { useTheme } from 'next-themes'
 import { ThemeSelect } from './theme-select'
+import darkLogo from '@/public/images/Nainovate_Logo_dark.svg'
+import lightLogo from '@/public/images/Nainovate_Logo_light.svg'
 
 
 async function UserOrLogin() {
@@ -31,15 +33,18 @@ async function UserOrLogin() {
         </>
       ) : (
         <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border bg-aiicon text-primary-foreground shadow-sm">
-          {!orgName ? (
-            null
-          ) : orgName === 'nainovate' ? (
-            <IconOpenAI2 className="transition-all" />
-          ) : orgName === 'brillius' ? (
-            <IconOpenAI1 className="transition-all" />
-          ) : (
-            null
-          )}
+          <div>
+          <img
+            src={darkLogo.src}
+            alt="Nainovate Logo"
+            className="h-6 w-6 hidden dark:block"
+          />
+          <img
+            src={lightLogo.src}
+            alt="Nainovate Logo"
+            className="h-6 w-6 block dark:hidden"
+          />
+        </div>
         </div>
       )}
       <div className="flex items-center">
