@@ -18,9 +18,9 @@ export const metadata = {
   },
   // description: 'An AI-powered chatbot template built with Next.js and Vercel.',
   icons: {
-    icon: '/favicon_brillius.png',
-    shortcut: '/favicon_brillius.png',
-    apple: '/favicon_brillius.png'
+    icon: '/images/Nainovate_Logo_light.svg',
+    shortcut: '/images/Nainovate_Logo_light.svg',
+    apple: '/images/Nainovate_Logo_light.svg'
   }
 }
 

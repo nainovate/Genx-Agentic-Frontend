@@ -24,7 +24,6 @@ export async function getTask(user: any) {
       sessionId: user.deviceHash,
     }
     const response = await axios.post(`${IP_ADDRESS}/chatbot/getTaskIds`, data);
-
     if (response.data.status_code === 200) {
       const tasks = response.data.tasks
       await redis.hmset(`user:${user.id}`, { tasks: JSON.stringify(tasks) }).catch((error) => {

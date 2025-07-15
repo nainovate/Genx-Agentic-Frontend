@@ -15,6 +15,9 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip'
 import { NormalButton } from '../ui/button'
+import darkLogo from '@/public/images/Nainovate_Logo_dark.svg'
+import lightLogo from '@/public/images/Nainovate_Logo_light.svg'
+import { dark } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 // import {useTypewriter, Cursor} from 'react-simple-typewriter'
 
 
@@ -54,15 +57,18 @@ export function BotMessage({
   return (
     <div className={cn('group relative flex items-start md:-ml-12', className)}>
       <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border bg-aiicon text-primary-foreground shadow-sm">
-        {!orgName ? (
-          null
-        ) : orgName === 'nainovate' ? (
-          <IconOpenAI2 className="transition-all" />
-        ) : orgName === 'brillius' ? (
-          <IconOpenAI1 className="transition-all" />
-        ) : (
-          null
-        )}
+        <div>
+          <img
+            src={darkLogo.src}
+            alt="Nainovate Logo"
+            className="h-6 w-6 hidden dark:block"
+          />
+          <img
+            src={lightLogo.src}
+            alt="Nainovate Logo"
+            className="h-6 w-6 block dark:hidden"
+          />
+        </div>
       </div>
       <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">
         <MemoizedReactMarkdown
@@ -140,15 +146,19 @@ export function BotCard({
           !showAvatar && 'invisible'
         )}
       >
-        {!orgName ? (
-          null
-        ) : orgName === 'nainovate' ? (
-          <IconOpenAI2 className="transition-all" />
-        ) : orgName === 'brillius' ? (
-          <IconOpenAI1 className="transition-all" />
-        ) : (
-          null
-        )}      </div>
+        <div>
+          <img
+            src={darkLogo.src}
+            alt="Nainovate Logo"
+            className="h-6 w-6 hidden dark:block"
+          />
+          <img
+            src={lightLogo.src}
+            alt="Nainovate Logo"
+            className="h-6 w-6 block dark:hidden"
+          />
+        </div>
+      </div>
       <div className="ml-4 flex-1 pl-2">{children}</div>
     </div>
   )

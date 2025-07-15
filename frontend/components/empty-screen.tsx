@@ -59,7 +59,7 @@ export function EmptyScreen({ taskInfo, questions }: EmptyProps) {
       </p>
 
       {/* Suggestion Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl w-full max-h-[200px] overflow-y-auto">
         {questions?.map((question, index) => (
           <button
             key={index}
@@ -75,3 +75,124 @@ export function EmptyScreen({ taskInfo, questions }: EmptyProps) {
     </div>
   );
 }
+
+// import { useState } from 'react';
+
+// export interface EmptyProps {
+//   taskInfo: any;
+//   questions: string[];
+// }
+
+// export function EmptyScreen({ taskInfo, questions }: EmptyProps) {
+//   const [currentIndex, setCurrentIndex] = useState(0);
+  
+//   // Split questions into first 4 and remaining
+//   const displayedQuestions = questions?.slice(0, 2) || [];
+//   const remainingQuestions = questions?.slice(2) || [];
+  
+//   const handleNext = () => {
+//     if (remainingQuestions.length > 0) {
+//       setCurrentIndex((prev) => (prev + 1) % remainingQuestions.length);
+//     }
+//   };
+  
+//   const handlePrev = () => {
+//     if (remainingQuestions.length > 0) {
+//       setCurrentIndex((prev) => (prev - 1 + remainingQuestions.length) % remainingQuestions.length);
+//     }
+//   };
+
+//   return (
+//     <div className="mx-auto max-w-2xl px-4 sm:px-6 flex h-full flex-col items-center justify-center text-gray-900 dark:text-gray-100">
+//       {/* Welcome Icon */}
+//       <div className="mb-6 h-20 w-20 rounded-full bg-gray-500 flex items-center justify-center text-4xl shadow-xl">
+//         🤖
+//       </div>
+
+//       {/* Welcome Title */}
+//       <h2 className="text-3xl font-semibold mb-3 text-center">
+//         {taskInfo?.taskName || 'Welcome to AI Chat'}
+//       </h2>
+
+//       {/* Welcome Subtitle */}
+//       <p className="text-base text-gray-600 dark:text-gray-400 mb-8 max-w-md text-center">
+//         {taskInfo?.description || 'How can I help you today? Choose from these suggestions or start typing your question.'}
+//       </p>
+
+//       {/* First 4 Question Cards */}
+//       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl w-full mb-6">
+//         {displayedQuestions.map((question, index) => (
+//           <button
+//             key={index}
+//             className="flex flex-col gap-2 p-5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-left hover:-translate-y-1 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600 transition-all"
+//             onClick={() => console.log(`Question clicked: ${question}`)}
+//           >
+//             <div className="text-base font-semibold text-gray-900 dark:text-gray-100">
+//               {question}
+//             </div>
+//           </button>
+//         ))}
+//       </div>
+
+//       {/* Carousel for Remaining Questions */}
+//       {remainingQuestions.length > 0 && (
+//         <div className="w-full max-w-xl">
+//           <div className="flex items-center justify-between mb-2">
+//             <span className="text-sm text-gray-500 dark:text-gray-400">
+//               More suggestions ({remainingQuestions.length})
+//             </span>
+//             <div className="flex items-center gap-1">
+//               {remainingQuestions.map((_, index) => (
+//                 <button
+//                   key={index}
+//                   className={`w-2 h-2 rounded-full transition-colors ${
+//                     index === currentIndex 
+//                       ? 'bg-gray-600 dark:bg-gray-300' 
+//                       : 'bg-gray-300 dark:bg-gray-600'
+//                   }`}
+//                   onClick={() => setCurrentIndex(index)}
+//                 />
+//               ))}
+//             </div>
+//           </div>
+          
+//           <div className="relative">
+//             <div className="flex items-center gap-3">
+//               {/* Previous Button */}
+//               <button
+//                 onClick={handlePrev}
+//                 className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+//                 disabled={remainingQuestions.length <= 1}
+//               >
+//                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+//                 </svg>
+//               </button>
+
+//               {/* Current Question Card */}
+//               <button
+//                 className="flex-1 p-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-left hover:-translate-y-1 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600 transition-all"
+//                 onClick={() => console.log(`Question clicked: ${remainingQuestions[currentIndex]}`)}
+//               >
+//                 <div className="text-base font-semibold text-gray-900 dark:text-gray-100">
+//                   {remainingQuestions[currentIndex]}
+//                 </div>
+//               </button>
+
+//               {/* Next Button */}
+//               <button
+//                 onClick={handleNext}
+//                 className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+//                 disabled={remainingQuestions.length <= 1}
+//               >
+//                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+//                 </svg>
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
