@@ -209,7 +209,7 @@ async function submitUserMessage(sessionId: string, taskInfo: any, id: string, c
     const res = await axios.post(`${IP_ADDRESS}/chatbot/rag`, data)
     console.log('-----res', res.data)
 
-    let content1: string = res.data.responseText
+    var content1: string = res.data.responseText
     
     // Check if response includes document creation data
     // Your backend can return document data in the response like:
