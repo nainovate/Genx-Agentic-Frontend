@@ -63,17 +63,24 @@ export function Chat({ taskInfo, id, className, session, questions }: ChatProps)
 
   return (
     <div
-      className="group flex flex-col justify-between w-full overflow-auto pl-10 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
+      className="group flex flex-col justify-between w-full overflow-auto peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
       ref={scrollRef}
     >
       <div
-        className={cn('pb-[100px] pt-4 md:pt-10', className)}
+        className={cn('', className)}
         ref={messagesRef}
       >
         {messages.length ? (
-          <ChatList messages={messages} show={show} isShared={false} session={session} />
+          <ChatList messages={messages} show={show} isShared={false} session={session} isAtBottom={isAtBottom} sessionId={sessionId}
+            taskInfo={taskInfo}
+            id={id}
+            input={input}
+            setInput={setInput}
+            setShow={setShow}
+            scrollToBottom={scrollToBottom}
+            questions={questions} />
         ) : (
-          transcriptedText === '' && <EmptyScreen taskInfo={taskInfo} />
+          transcriptedText === '' && <EmptyScreen questions={questions} taskInfo={taskInfo} id={id} sessionId={sessionId} setShow={setShow} />
         )}
         {transcriptedText !== '' && (<div className='relative mx-auto max-w-2xl px-4'>
           <Separator className="my-4" />
@@ -83,6 +90,7 @@ export function Chat({ taskInfo, id, className, session, questions }: ChatProps)
         </div>)}
         <div className="w-full h-px" ref={visibilityRef} />
       </div>
+      {messages.length ? null: (
       <ChatPanel
         sessionId={sessionId}
         taskInfo={taskInfo}
@@ -94,7 +102,7 @@ export function Chat({ taskInfo, id, className, session, questions }: ChatProps)
         scrollToBottom={scrollToBottom}
         show={show}
         questions={questions}
-      />
+      />)}
     </div>
   )
 }

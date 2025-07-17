@@ -25,9 +25,11 @@ export function ThemeToggle() {
     onClick={() => {
       startTransition(() => {
         if (theme?.includes('light')) {
-          setTheme(orgName + '-dark')
+          // setTheme(orgName + '-dark')
+                    setTheme('dark')
+
         } else {
-          setTheme(orgName + '-light')
+          setTheme('light')
         }
       })
     }}

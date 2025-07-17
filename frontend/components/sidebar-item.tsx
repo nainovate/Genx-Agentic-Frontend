@@ -72,8 +72,8 @@ export function SidebarItem({ index, chat, children }: SidebarItemProps) {
         href={chat.path}
         className={cn(
           buttonVariants({ variant: 'ghost' }),
-          'group w-full px-8 transition-colors hover:bg-muted',
-          isActive && 'bg-muted pr-16 font-semibold'
+          'group w-full px-8 transition-colors hover:bg-card',
+          isActive && 'bg-secondary pr-16 font-semibold'
         )}
       >
         <div

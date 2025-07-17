@@ -111,9 +111,76 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
   }
 }
 
+// async function submitUserMessage(sessionId: string, taskInfo: any, id: string, content: string) {
+//   'use server';
+//   const aiState = getMutableAIState<typeof AI>();
+//   // Update aiState with the user message
+//   aiState.update({
+//     ...aiState.get(),
+//     messages: [
+//       ...aiState.get().messages,
+//       {
+//         id: nanoid(),
+//         role: 'user',
+//         content,
+//       },
+//     ],
+//   });
+//   const data ={
+//     sessionId: sessionId,
+//     data:{
+//       query:content,
+//       deployId: taskInfo.agentId,
+//       clientApiKey: taskInfo.clientApiKey
+//     }
+//   }
+//   console.log('-----data',data)
+//   try {
+//     const res = await axios.post(`${IP_ADDRESS}/chatbot/rag`,data)
+//     console.log('-----res',res.data)
+
+//     var content1: string = res.data.responseText    
+//   } catch (error: any) {
+//     // Check if it's a network error or a response error
+//   if (error.response) {
+//     // Server responded with a status other than 2xx
+//     console.error('Server Error:', error.response.status, error.response.data);
+//     var content1: string = 'Server error occurred. Please try again later.';
+//   } else if (error.request) {
+//     // No response was received (e.g., network error)
+//     console.error('Network Error:', error.message);
+//     var content1: string = 'Network error. Please check your connection and try again.';
+//   } else {
+//     // Other errors
+//     console.error('Error:', error.message);
+//     var content1: string = 'An unexpected error occurred. Please try again.';
+//   }
+//   }
+//   finally{
+//     const div: any = <BotMessage content={content1} />
+
+//     // Update aiState with the assistant message
+//     aiState.done({
+//       ...aiState.get(),
+//       messages: [
+//         ...aiState.get().messages,
+//         {
+//           id: nanoid(),
+//           role: 'assistant',
+//           content: content1,
+//         },
+//       ],
+//     }); return {
+//       id: nanoid(),
+//       display: div, // Or any relevant display message
+//     };
+//   }
+// }
+
 async function submitUserMessage(sessionId: string, taskInfo: any, id: string, content: string) {
   'use server';
   const aiState = getMutableAIState<typeof AI>();
+  
   // Update aiState with the user message
   aiState.update({
     ...aiState.get(),
@@ -126,37 +193,52 @@ async function submitUserMessage(sessionId: string, taskInfo: any, id: string, c
       },
     ],
   });
-  const data ={
+
+  const data = {
     sessionId: sessionId,
-    data:{
-      query:content,
+    data: {
+      query: content,
       deployId: taskInfo.agentId,
       clientApiKey: taskInfo.clientApiKey
     }
   }
-  console.log('-----data',data)
-  try {
-    const res = await axios.post(`${IP_ADDRESS}/chatbot/rag`,data)
-    console.log('-----res',res.data)
 
-    var content1: string = res.data.responseText    
+  console.log('-----data', data)
+  
+  try {
+    const res = await axios.post(`${IP_ADDRESS}/chatbot/rag`, data)
+    console.log('-----res', res.data)
+
+    let content1: string = res.data.responseText
+    
+    // Check if response includes document creation data
+    // Your backend can return document data in the response like:
+    // {
+    //   responseText: "I've created a document for you.",
+    //   documentData: {
+    //     title: "Meeting Notes",
+    //     content: "# Meeting Notes\n\nDate: ...",
+    //     type: "document"
+    //   }
+    // }
+    
+    if (res.data.documentData) {
+      // Append document marker to content for frontend detection
+      content1 += `\n\nDOCUMENT_CREATED: ${JSON.stringify(res.data.documentData)}`
+    }
+    
   } catch (error: any) {
-    // Check if it's a network error or a response error
-  if (error.response) {
-    // Server responded with a status other than 2xx
-    console.error('Server Error:', error.response.status, error.response.data);
-    var content1: string = 'Server error occurred. Please try again later.';
-  } else if (error.request) {
-    // No response was received (e.g., network error)
-    console.error('Network Error:', error.message);
-    var content1: string = 'Network error. Please check your connection and try again.';
-  } else {
-    // Other errors
-    console.error('Error:', error.message);
-    var content1: string = 'An unexpected error occurred. Please try again.';
-  }
-  }
-  finally{
+    if (error.response) {
+      console.error('Server Error:', error.response.status, error.response.data);
+      var content1: string = 'Server error occurred. Please try again later.';
+    } else if (error.request) {
+      console.error('Network Error:', error.message);
+      var content1: string = 'Network error. Please check your connection and try again.';
+    } else {
+      console.error('Error:', error.message);
+      var content1: string = 'An unexpected error occurred. Please try again.';
+    }
+  } finally {
     const div: any = <BotMessage content={content1} />
 
     // Update aiState with the assistant message
@@ -170,9 +252,11 @@ async function submitUserMessage(sessionId: string, taskInfo: any, id: string, c
           content: content1,
         },
       ],
-    }); return {
+    });
+    
+    return {
       id: nanoid(),
-      display: div, // Or any relevant display message
+      display: div,
     };
   }
 }

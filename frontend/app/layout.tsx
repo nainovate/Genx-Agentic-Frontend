@@ -18,9 +18,9 @@ export const metadata = {
   },
   // description: 'An AI-powered chatbot template built with Next.js and Vercel.',
   icons: {
-    icon: '/favicon_brillius.png',
-    shortcut: '/favicon_brillius.png',
-    apple: '/favicon_brillius.png'
+    icon: '/images/Nainovate_Logo_light.svg',
+    shortcut: '/images/Nainovate_Logo_light.svg',
+    apple: '/images/Nainovate_Logo_light.svg'
   }
 }
 
@@ -52,9 +52,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex flex-col min-h-screen">
+          <div className="flex flex-col min-h-screen bg-muted">
             <Header />
-            <main className="flex flex-col flex-1 bg-muted/50">{children}</main>
+            <main className="flex flex-col flex-1 ">{children}</main>
           </div>
           {/* <TailwindIndicator /> */}
         </Providers>
