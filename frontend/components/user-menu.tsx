@@ -21,19 +21,20 @@ function getUserInitials(name: string) {
 
 export function UserMenu({ user }: UserMenuProps) {
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex w-full justify-between">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="pl-0">
-            <div className="flex size-7 shrink-0 select-none items-center justify-center rounded-full bg-muted/50 text-xs font-medium uppercase text-muted-foreground">
+          <Button variant="ghost" className="w-full flex items-center justify-start gap-4 pl-0">
+            <div className="flex size-9 shrink-0 select-none items-center justify-center rounded-full bg-muted/50 text-lg border font-medium uppercase text-muted-foreground">
               {getUserInitials(user.email)}
             </div>
-            <span className="ml-2 hidden md:block">{user.email}</span>
+            <span className="ml-2 text-lg">{user.email}</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent sideOffset={8} align="start" className="w-fit bg-muted">
           <DropdownMenuItem className="flex-col items-start">
-          </DropdownMenuItem>            <div className="text-xs text-foreground">{user.email}</div>
+          </DropdownMenuItem>            
+          <div className="text-xs text-foreground">{user.email}</div>
 
           <DropdownMenuSeparator />
           <form

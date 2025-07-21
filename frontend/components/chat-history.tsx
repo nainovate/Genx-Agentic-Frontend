@@ -2,6 +2,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { SidebarList } from '@/components/sidebar-list'
+import { SidebarHeader } from '@/components/sidebar-header'
 import { buttonVariants } from '@/components/ui/button'
 import { IconPlus } from '@/components/ui/icons'
 import { AgentsList } from '@/components/agents-list'
@@ -11,6 +12,7 @@ import { cache } from 'react'
 const loadAgents = cache(async (userId?: string) => {
   return await agentsInfo(userId)
 })
+
 interface ChatHistoryProps {
   userId?: string
 }
@@ -20,6 +22,8 @@ export async function ChatHistory({ userId }: ChatHistoryProps) {
 
   return (
     <div className="flex flex-col h-full">
+      <SidebarHeader />
+      
       <div className="mb-2 mt-2 px-2">
         <Link
           href="/agent"
@@ -32,22 +36,23 @@ export async function ChatHistory({ userId }: ChatHistoryProps) {
           Agents
         </Link>
       </div>
+      
       <div className="flex flex-col px-4 space-y-4 overflow-auto">
         <React.Suspense
-        fallback={
-          <div className="flex flex-col flex-1 px-4 space-y-4 overflow-auto">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div
-                key={i}
-                className="w-full h-6 rounded-md shrink-0 animate-pulse bg-muted"
-              />
-            ))}
-          </div>
-        }
-      >
-        {/* @ts-ignore */}
-        <AgentsList userId={userId} agents={agents} />
-      </React.Suspense>
+          fallback={
+            <div className="flex flex-col flex-1 px-4 space-y-4 overflow-auto">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="w-full h-6 rounded-md shrink-0 animate-pulse bg-muted"
+                />
+              ))}
+            </div>
+          }
+        >
+          {/* @ts-ignore */}
+          <AgentsList userId={userId} agents={agents} />
+        </React.Suspense>
       </div>
       
       <div className="mb-2 px-2">
@@ -62,6 +67,7 @@ export async function ChatHistory({ userId }: ChatHistoryProps) {
           New Chat
         </Link>
       </div>
+      
       <React.Suspense
         fallback={
           <div className="flex flex-col flex-1 px-4 space-y-4 overflow-auto">
