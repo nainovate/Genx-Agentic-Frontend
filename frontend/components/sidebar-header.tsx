@@ -1,17 +1,21 @@
+"use client"
 import { cn } from '@/lib/utils'
 import { SidebarToggle } from '@/components/sidebar-toggle'
 import darkLogo from '@/public/images/Nainovate_Logo_dark.svg'
 import lightLogo from '@/public/images/Nainovate_Logo_light.svg'
+import { useSidebar } from '@/lib/hooks/use-sidebar'
+
 
 export function SidebarHeader({
     children,
     className,
     ...props
 }: React.ComponentProps<'div'>) {
+const { isSidebarOpen } = useSidebar()
 
     return (
         <div
-            className={cn('flex items-center justify-between p-4 border-b', className)}
+            className={cn(`flex items-center justify-between p-3 border-b ${isSidebarOpen ?"":"flex-col"}`, className)}
             {...props}
         >
             <div className="flex items-center gap-2">

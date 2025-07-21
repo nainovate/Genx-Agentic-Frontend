@@ -21,11 +21,11 @@ function getUserInitials(name: string) {
 
 export function UserMenu({ user }: UserMenuProps) {
   return (
-    <div className="flex w-full justify-between">
+    <div className="flex w-full justify-between pt-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="w-full flex items-center justify-start gap-4 pl-0">
-            <div className="flex size-9 shrink-0 select-none items-center justify-center rounded-full bg-muted/50 text-lg border font-medium uppercase text-muted-foreground">
+            <div className="flex size-9 shrink-0 select-none items-center justify-center p-2 rounded-full bg-muted/50 text-lg border font-medium uppercase">
               {getUserInitials(user.email)}
             </div>
             <span className="ml-2 text-lg">{user.email}</span>

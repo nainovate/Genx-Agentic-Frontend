@@ -7,7 +7,7 @@ export function SidebarFooter({
 }: React.ComponentProps<'div'>) {
   return (
     <div
-      className={cn('flex flex-col items-center justify-between p-4', className)}
+      className={cn('flex flex-col items-center justify-between p-4 border-t', className)}
       {...props}
     >
       {children}

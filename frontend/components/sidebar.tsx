@@ -12,8 +12,8 @@ export function Sidebar({ className, children }: SidebarProps) {
 
   return (
     <div
-      data-state={isSidebarOpen && !isLoading ? 'open' : 'closed'}
-      className={cn(className, 'h-full flex-col')}
+      data-state={isSidebarOpen ? 'open' : 'collapsed'}
+      className={cn(className, 'h-full flex-col transition-all duration-300 ease-in-out')}
     >
       {children}
     </div>

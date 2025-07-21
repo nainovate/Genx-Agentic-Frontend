@@ -1,7 +1,6 @@
 'use client'
 
 import * as React from 'react'
-
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -9,14 +8,15 @@ import { motion } from 'framer-motion'
 
 import { buttonVariants } from '@/components/ui/button'
 import { IconMessage, IconUsers } from '@/components/ui/icons'
+import { cn, formatDate } from '@/lib/utils'
+import { type Chat } from '@/lib/types'
+import { useSidebar } from '@/lib/hooks/use-sidebar'
 import {
   Tooltip,
   TooltipContent,
-  TooltipTrigger
-} from '@/components/ui/tooltip'
-import { useLocalStorage } from '@/lib/hooks/use-local-storage'
-import { type Chat } from '@/lib/types'
-import { cn } from '@/lib/utils'
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface SidebarItemProps {
   index: number
@@ -26,12 +26,62 @@ interface SidebarItemProps {
 
 export function SidebarItem({ index, chat, children }: SidebarItemProps) {
   const pathname = usePathname()
+  const { isSidebarOpen } = useSidebar()
 
   const isActive = pathname === chat.path
-  const [newChatId, setNewChatId] = useLocalStorage('newChatId', null)
-  const shouldAnimate = index === 0 && isActive && newChatId
+  const shouldAnimate = index === 0 && isActive
+  const isCollapsed = !isSidebarOpen
 
-  if (!chat?.id) return null
+  if (isCollapsed) {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <motion.div
+              className="relative h-8"
+              variants={{
+                initial: {
+                  height: 0,
+                  opacity: 0
+                },
+                animate: {
+                  height: 'auto',
+                  opacity: 1
+                }
+              }}
+              initial={shouldAnimate ? 'initial' : undefined}
+              animate={shouldAnimate ? 'animate' : undefined}
+              transition={{
+                duration: 0.25,
+                ease: 'easeIn'
+              }}
+            >
+              <Link
+                href={chat.path}
+                className={cn(
+                  buttonVariants({ variant: 'ghost' }),
+                  'group w-full justify-center px-2 h-8',
+                  isActive && 'bg-accent'
+                )}
+              >
+                <div className="flex items-center justify-center w-full">
+                  <IconMessage className="size-4" />
+                </div>
+              </Link>
+            </motion.div>
+          </TooltipTrigger>
+          <TooltipContent side="right" className="max-w-[200px]">
+            <div className="flex flex-col gap-1">
+              <div className="font-medium truncate">{chat.title}</div>
+              <div className="text-xs text-muted-foreground">
+                {formatDate(chat.createdAt)}
+              </div>
+            </div>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    )
+  }
 
   return (
     <motion.div
@@ -54,32 +104,17 @@ export function SidebarItem({ index, chat, children }: SidebarItemProps) {
       }}
     >
       <div className="absolute left-2 top-1 flex size-6 items-center justify-center">
-        {chat.sharePath ? (
-          <Tooltip delayDuration={1000}>
-            <TooltipTrigger
-              tabIndex={-1}
-              className="focus:bg-muted focus:ring-1 focus:ring-ring"
-            >
-              <IconUsers className="mr-2 mt-1 text-zinc-500" />
-            </TooltipTrigger>
-            <TooltipContent>This is a shared chat.</TooltipContent>
-          </Tooltip>
-        ) : (
-          <IconMessage className="mr-2 mt-1 text-zinc-500" />
-        )}
+        <IconMessage className="size-4" />
       </div>
       <Link
         href={chat.path}
         className={cn(
           buttonVariants({ variant: 'ghost' }),
-          'group w-full px-8 transition-colors hover:bg-card',
-          isActive && 'bg-secondary pr-16 font-semibold'
+          'group w-full justify-start px-8 h-8',
+          isActive && 'bg-accent'
         )}
       >
-        <div
-          className="relative max-h-5 flex-1 select-none overflow-hidden text-ellipsis break-all"
-          title={chat.title}
-        >
+        <div className="relative max-h-5 flex-1 select-none overflow-hidden text-ellipsis break-all">
           <span className="whitespace-nowrap">
             {shouldAnimate ? (
               chat.title.split('').map((character, index) => (
@@ -102,11 +137,6 @@ export function SidebarItem({ index, chat, children }: SidebarItemProps) {
                     ease: 'easeIn',
                     delay: index * 0.05,
                     staggerChildren: 0.05
-                  }}
-                  onAnimationComplete={() => {
-                    if (index === chat.title.length - 1) {
-                      setNewChatId(null)
-                    }
                   }}
                 >
                   {character}
