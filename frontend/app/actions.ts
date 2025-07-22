@@ -7,8 +7,14 @@ import { kv } from '@vercel/kv'
 import { auth } from '@/auth'
 import { type Chat } from '@/lib/types'
 import { createRedisInstance } from '../redis'
+import { signOut } from '@/auth'
 
 const redis = createRedisInstance();
+
+export async function signOutUser() {
+  await signOut()
+
+}
 
 export async function getChats(userId?: string | null) {
   if (!userId) {

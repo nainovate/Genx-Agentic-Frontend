@@ -367,7 +367,7 @@ Add any references or additional information here...`
   const activeDocument = documents.find(doc => doc.id === activeDocumentId && doc.isOpen)
 
   return (
-    <div className="flex h-[92vh] bg-background">
+    <div className="flex h-[84vh] bg-background border">
       {/* Chat Interface */}
       <div className="flex-1 flex flex-col">
         {/* Messages */}

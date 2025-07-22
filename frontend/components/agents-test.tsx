@@ -129,7 +129,7 @@ export function Agents({ user }: AgentProps) {
 
     return (
         <div
-            className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
+            className="group w-full overflow-auto pl-[50px] peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
             ref={scrollRef}
         >
             <div className={`min-h-screen text-gray-800 dark:text-gray-100 transition-colors duration-300 ${darkTheme ? 'dark' : ''}`} ref={scrollRef}>

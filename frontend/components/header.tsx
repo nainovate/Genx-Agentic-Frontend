@@ -15,7 +15,7 @@ async function UserOrLogin() {
     <>
       {session?.user ? (
         <SidebarMobile>
-          <ChatHistory userId={session.user.id} />
+          <ChatHistory session={session}/>
         </SidebarMobile>
       ) : (
         <Button variant="link" asChild className="-ml-2">
