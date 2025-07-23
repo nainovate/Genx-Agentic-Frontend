@@ -13,7 +13,7 @@ const redis = createRedisInstance();
 
 export async function signOutUser() {
   await signOut()
-
+  redirect('/')
 }
 
 export async function getChats(userId?: string | null) {

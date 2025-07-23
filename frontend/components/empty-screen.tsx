@@ -18,7 +18,7 @@ export function EmptyScreen({ taskInfo, questions, setShow, sessionId, id }: Emp
   const [messages, setMessages] = useUIState<typeof AI>()
   const { submitUserMessage } = useActions()
   return (
-    <div className="flex h-[84vh] w-full items-center justify-center border">
+    <div className="flex h-[84vh] w-full items-center justify-center">
       <div className="mx-auto max-w-2xl px-4 sm:px-6 flex h-full flex-col items-center justify-center text-gray-900 dark:text-gray-100">
         {/* Welcome Icon */}
         <div className="mb-6 h-20 w-20 rounded-full bg-gray-500 flex items-center justify-center text-4xl shadow-xl">

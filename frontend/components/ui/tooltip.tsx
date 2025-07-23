@@ -27,4 +27,28 @@ const TooltipContent = React.forwardRef<
 ))
 TooltipContent.displayName = TooltipPrimitive.Content.displayName
 
-export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }
+const ToolTip = ({
+  icon,
+  text,
+  onClick,
+}: {
+  icon: React.ReactNode
+  text: string
+  onClick?: () => void
+}) => {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div
+          onClick={onClick}
+          className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md hover:bg-card hover:border cursor-pointer"
+        >
+          {icon}
+        </div>
+      </TooltipTrigger>
+      <TooltipContent>{text}</TooltipContent>
+    </Tooltip>
+  );
+};
+
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider, ToolTip }

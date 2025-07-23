@@ -32,12 +32,13 @@ export const authConfig = {
     async session({ session, token }) {
       if (token) {
         const { id } = token as { id: string }
+        const { name } = token as { name: string }
         const { email } = token as { email: string }
         const { orgIds } = token as { orgIds: any}
         const {deviceHash} = token as { deviceHash: string}
         const {role} = token as {role: string}
         const { user } = session
-        session = { ...session, user: { ...user, id , orgIds, deviceHash, role, email} }
+        session = { ...session, user: { ...user, id ,name, orgIds, deviceHash, role, email} }
       }
       return session
     }

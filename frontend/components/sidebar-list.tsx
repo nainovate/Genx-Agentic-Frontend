@@ -38,13 +38,15 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { ClearHistory } from '@/components/clear-history'
+// import { ClearHistory } from '@/components/clear-history'
 import { SidebarItems } from '@/components/sidebar-items'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { UserMenu } from '@/components/user-menu'
 import { SidebarFooter } from '@/components/sidebar-footer'
 import { getChats, clearChats } from '@/app/actions'
 import { Session } from '@/lib/types'
+import { useSidebar } from '@/lib/hooks/use-sidebar'
+
 
 interface SidebarListProps {
   session?: Session
@@ -53,6 +55,7 @@ interface SidebarListProps {
 export function SidebarList({ session }: SidebarListProps) {
   const [chats, setChats] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const { isSidebarOpen } = useSidebar()
 
   useEffect(() => {
     async function loadData() {
@@ -60,7 +63,7 @@ export function SidebarList({ session }: SidebarListProps) {
         setLoading(true)
         const chatData = await getChats(session.user.id)
         setChats(chatData || [])
-        
+
       } catch (error) {
         console.error('Failed to load data:', error)
       } finally {
@@ -95,7 +98,7 @@ export function SidebarList({ session }: SidebarListProps) {
       <div className="flex-1 overflow-auto">
         {chats?.length ? (
           <div className="space-y-2 px-2">
-            <SidebarItems chats={chats} />
+            {isSidebarOpen ? <SidebarItems chats={chats} /> : <div></div>}
           </div>
         ) : (
           <div className="p-8 text-center">
@@ -104,16 +107,16 @@ export function SidebarList({ session }: SidebarListProps) {
         )}
       </div>
       <SidebarFooter>
-        <div className="flex w-full items-center justify-between px-2 gap-2">
+        <div className={`flex w-full items-center justify-between px-2 gap-2 ${isSidebarOpen ? '' : ' transform flex-col-reverse'}`}>
+          {session?.user && (
+            <UserMenu user={session.user} />
+          )}
           <ThemeToggle />
-          <ClearHistory 
+          {/* <ClearHistory 
             clearChats={clearChats} 
             isEnabled={chats?.length > 0} 
-          />
+          /> */}
         </div>
-        {session?.user && (
-          <UserMenu user={session.user} />
-        )}
       </SidebarFooter>
     </div>
   )

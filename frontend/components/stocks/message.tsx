@@ -3,6 +3,7 @@
 import { IconDisLike, IconOpenAI, IconOpenAI1, IconUser, IconOpenAI2 } from '@/components/ui/icons'
 import { cn } from '@/lib/utils'
 import { spinner } from './spinner'
+import { ThumbsDown, ThumbsUp, Copy } from 'lucide-react'
 import { CodeBlock } from '../ui/codeblock'
 import { MemoizedReactMarkdown } from '../markdown'
 import remarkGfm from 'remark-gfm'
@@ -12,7 +13,8 @@ import { useStreamableText } from '@/lib/hooks/use-streamable-text'
 import {
   Tooltip,
   TooltipContent,
-  TooltipTrigger
+  TooltipTrigger,
+  ToolTip
 } from '@/components/ui/tooltip'
 import { NormalButton } from '../ui/button'
 import darkLogo from '@/public/images/Nainovate_Logo_dark.svg'
@@ -50,7 +52,14 @@ export function BotMessage({
   // const [text]:any = useTypewriter({
   //   words:[content]
   // })
-
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text).then(() => {
+      // Optionally show some feedback like toast/snackbar
+      console.log('Copied to clipboard:', text)
+    }).catch(err => {
+      console.error('Failed to copy:', err)
+    });
+  };
 
 
 
@@ -112,22 +121,21 @@ export function BotMessage({
         >
           {text}
         </MemoizedReactMarkdown>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md hover:bg-background hover:border">
-              <NormalButton
-                variant="dislike"
-                size="icon"
-                className=" size-5"
-              >
-                <IconDisLike />
-              </NormalButton>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent>Dislike</TooltipContent>
-        </Tooltip>
-      </div>
-    </div>
+        <div className='flex gap-1'>
+          <ToolTip
+            icon={<ThumbsUp className="size-4" />}
+            text="Good response" />
+          <ToolTip
+            icon={<ThumbsDown className="size-4" />}
+            text="Bad response" />
+          <ToolTip
+            icon={<Copy className="size-4" />}
+            text="Copy"
+            onClick={handleCopy}
+          />
+        </div>
+      </div >
+    </div >
   )
 }
 

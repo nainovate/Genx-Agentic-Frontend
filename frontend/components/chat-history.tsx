@@ -24,24 +24,24 @@ interface ChatHistoryProps {
 
 export function ChatHistory({ session }: ChatHistoryProps) {
   const { isSidebarOpen } = useSidebar()
-  const [agents, setAgents] = React.useState<any>(null)
-  const [loading, setLoading] = React.useState(true)
+  // const [agents, setAgents] = React.useState<any>(null)
+  // const [loading, setLoading] = React.useState(true)
 
-  React.useEffect(() => {
-    async function fetchAgents() {
-      try {
-        setLoading(true)
-        const data = await agentsInfo(session?.user.id)
-        setAgents(data)
-      } catch (error) {
-        console.error('Failed to fetch agents:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
+  // React.useEffect(() => {
+  //   async function fetchAgents() {
+  //     try {
+  //       setLoading(true)
+  //       const data = await agentsInfo(session?.user.id)
+  //       setAgents(data)
+  //     } catch (error) {
+  //       console.error('Failed to fetch agents:', error)
+  //     } finally {
+  //       setLoading(false)
+  //     }
+  //   }
 
-    fetchAgents()
-  }, [session])
+  //   fetchAgents()
+  // }, [session])
 
   return (
     <div className={cn("flex flex-col h-full", isSidebarOpen ? "py-1" : "")}>
@@ -77,7 +77,7 @@ export function ChatHistory({ session }: ChatHistoryProps) {
       </div>
       
       {/* Agents List */}
-      <div className={cn(
+      {/* <div className={cn(
         "flex flex-col px-4 space-y-4 overflow-auto",
         !isSidebarOpen && "px-1 space-y-2"
       )}>
@@ -96,7 +96,7 @@ export function ChatHistory({ session }: ChatHistoryProps) {
         ) : (
           <AgentsList userId={session?.user.id} agents={agents} />
         )}
-      </div>
+      </div> */}
       
       {/* New Chat Button */}
       <div className={cn("mb-2 px-2", !isSidebarOpen && "px-1")}>
