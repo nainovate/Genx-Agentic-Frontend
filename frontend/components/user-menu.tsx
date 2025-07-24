@@ -34,7 +34,10 @@ export function UserMenu({ user }: UserMenuProps) {
             <div className="flex size-9 shrink-0 select-none items-center justify-center p-2 rounded-full bg-card text-lg border font-medium uppercase">
               {getUserInitials(user.name)}
             </div>
-            <span className="ml-2 text-lg">{user.name}</span>
+            <div className='flex flex-col text-left'>
+            <span className="text-lg font-medium">{user.name}</span>
+            <span className='text-xs text-gray-600'>Free Plan</span>
+            </div>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent sideOffset={8} align="center" className="w-[250px] bg-muted">

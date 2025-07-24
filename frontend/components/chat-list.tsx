@@ -431,6 +431,9 @@ Add any references or additional information here...`
                     )}
                   </div>
                   {index < messages.length - 1 && <Separator className="my-4" />}
+                  <div className='flex gap-1 justify-end items-center'>
+                    {index === messages.length - 1 && <span className='text-gray-600 text-xs hover:underline cursor-pointer py-1'> NIA can make mistakes. Please double-check response.</span>}
+                  </div>
                 </div>
               )
             })}

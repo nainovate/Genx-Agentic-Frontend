@@ -121,7 +121,7 @@ export function BotMessage({
         >
           {text}
         </MemoizedReactMarkdown>
-        <div className='flex gap-1'>
+        <div className='flex gap-1 justify-end items-center'>
           <ToolTip
             icon={<ThumbsUp className="size-4" />}
             text="Good response" />
